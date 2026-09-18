@@ -1,0 +1,280 @@
+[train_sentiment] variant=raw device=mps
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+[train_sentiment] tokenized train=21628 val=2404 test=2671
+Loading weights:   0%|          | 0/197 [00:00<?, ?it/s]Loading weights: 100%|██████████| 197/197 [00:00<00:00, 25765.63it/s]
+[transformers] [1mCamembertForSequenceClassification LOAD REPORT[0m from: airesearch/wangchanberta-base-att-spm-uncased
+Key                         | Status     | 
+----------------------------+------------+-
+roberta.pooler.dense.weight | UNEXPECTED | 
+lm_head.layer_norm.bias     | UNEXPECTED | 
+lm_head.layer_norm.weight   | UNEXPECTED | 
+lm_head.bias                | UNEXPECTED | 
+lm_head.dense.weight        | UNEXPECTED | 
+roberta.pooler.dense.bias   | UNEXPECTED | 
+lm_head.dense.bias          | UNEXPECTED | 
+classifier.dense.weight     | MISSING    | 
+classifier.out_proj.weight  | MISSING    | 
+classifier.dense.bias       | MISSING    | 
+classifier.out_proj.bias    | MISSING    | 
+
+Notes:
+- UNEXPECTED:	can be ignored when loading from different task/architecture; not ok if you expect identical arch.
+- MISSING:	those params were newly initialized because missing from the checkpoint. Consider training on your downstream task.
+[train_sentiment] model loaded, starting Trainer.train()
+/Users/athens/Downloads/Coding/Thai Slang NLP Normalize/.venv/lib/python3.11/site-packages/torch/utils/data/dataloader.py:759: UserWarning: 'pin_memory' argument is set as true but not supported on MPS now, device pinned memory won't be used.
+  super().__init__(loader)
+{'loss': '1.123', 'grad_norm': '88.74', 'learning_rate': '4.978e-05', 'epoch': '0.01479'}
+{'loss': '1.015', 'grad_norm': '144.6', 'learning_rate': '4.953e-05', 'epoch': '0.02959'}
+{'loss': '0.9369', 'grad_norm': '17.43', 'learning_rate': '4.929e-05', 'epoch': '0.04438'}
+{'loss': '0.956', 'grad_norm': '5.183', 'learning_rate': '4.904e-05', 'epoch': '0.05917'}
+{'loss': '0.9593', 'grad_norm': '130.9', 'learning_rate': '4.879e-05', 'epoch': '0.07396'}
+{'loss': '0.9226', 'grad_norm': '9.349', 'learning_rate': '4.855e-05', 'epoch': '0.08876'}
+{'loss': '0.9336', 'grad_norm': '18.34', 'learning_rate': '4.83e-05', 'epoch': '0.1036'}
+{'loss': '0.8996', 'grad_norm': '23.66', 'learning_rate': '4.805e-05', 'epoch': '0.1183'}
+{'loss': '0.8691', 'grad_norm': '47.44', 'learning_rate': '4.781e-05', 'epoch': '0.1331'}
+{'loss': '0.813', 'grad_norm': '52.35', 'learning_rate': '4.756e-05', 'epoch': '0.1479'}
+{'loss': '0.9521', 'grad_norm': '269.9', 'learning_rate': '4.731e-05', 'epoch': '0.1627'}
+{'loss': '0.9887', 'grad_norm': '178.5', 'learning_rate': '4.707e-05', 'epoch': '0.1775'}
+{'loss': '0.8917', 'grad_norm': '49.81', 'learning_rate': '4.682e-05', 'epoch': '0.1923'}
+{'loss': '0.9968', 'grad_norm': '232.3', 'learning_rate': '4.657e-05', 'epoch': '0.2071'}
+{'loss': '0.8795', 'grad_norm': '12.93', 'learning_rate': '4.633e-05', 'epoch': '0.2219'}
+{'loss': '0.8942', 'grad_norm': '174.9', 'learning_rate': '4.608e-05', 'epoch': '0.2367'}
+{'loss': '0.9183', 'grad_norm': '37.17', 'learning_rate': '4.583e-05', 'epoch': '0.2515'}
+{'loss': '0.8906', 'grad_norm': '24.1', 'learning_rate': '4.559e-05', 'epoch': '0.2663'}
+{'loss': '0.9021', 'grad_norm': '232.2', 'learning_rate': '4.534e-05', 'epoch': '0.2811'}
+{'loss': '0.8678', 'grad_norm': '38.69', 'learning_rate': '4.509e-05', 'epoch': '0.2959'}
+{'loss': '0.8729', 'grad_norm': '88.73', 'learning_rate': '4.485e-05', 'epoch': '0.3107'}
+{'loss': '0.8512', 'grad_norm': '1.201e+04', 'learning_rate': '4.46e-05', 'epoch': '0.3254'}
+{'loss': '0.9084', 'grad_norm': '51.74', 'learning_rate': '4.435e-05', 'epoch': '0.3402'}
+{'loss': '0.8906', 'grad_norm': '161.6', 'learning_rate': '4.411e-05', 'epoch': '0.355'}
+{'loss': '0.8214', 'grad_norm': '53.15', 'learning_rate': '4.386e-05', 'epoch': '0.3698'}
+{'loss': '0.8889', 'grad_norm': '24.87', 'learning_rate': '4.361e-05', 'epoch': '0.3846'}
+{'loss': '0.8814', 'grad_norm': '14.65', 'learning_rate': '4.337e-05', 'epoch': '0.3994'}
+{'loss': '0.9117', 'grad_norm': '25.12', 'learning_rate': '4.312e-05', 'epoch': '0.4142'}
+{'loss': '0.8703', 'grad_norm': '14.12', 'learning_rate': '4.287e-05', 'epoch': '0.429'}
+{'loss': '1.04', 'grad_norm': '15.77', 'learning_rate': '4.263e-05', 'epoch': '0.4438'}
+{'loss': '0.9045', 'grad_norm': '14.21', 'learning_rate': '4.238e-05', 'epoch': '0.4586'}
+{'loss': '0.9475', 'grad_norm': '4.154', 'learning_rate': '4.214e-05', 'epoch': '0.4734'}
+{'loss': '0.9831', 'grad_norm': '5.454', 'learning_rate': '4.189e-05', 'epoch': '0.4882'}
+{'loss': '0.9069', 'grad_norm': '229.2', 'learning_rate': '4.164e-05', 'epoch': '0.503'}
+{'loss': '0.889', 'grad_norm': '3.923', 'learning_rate': '4.14e-05', 'epoch': '0.5178'}
+{'loss': '0.9804', 'grad_norm': '4.867', 'learning_rate': '4.115e-05', 'epoch': '0.5325'}
+{'loss': '0.7931', 'grad_norm': '6.023', 'learning_rate': '4.09e-05', 'epoch': '0.5473'}
+{'loss': '0.8153', 'grad_norm': '15.93', 'learning_rate': '4.066e-05', 'epoch': '0.5621'}
+{'loss': '0.7914', 'grad_norm': '62.06', 'learning_rate': '4.041e-05', 'epoch': '0.5769'}
+{'loss': '0.7933', 'grad_norm': '94.54', 'learning_rate': '4.016e-05', 'epoch': '0.5917'}
+{'loss': '0.8003', 'grad_norm': '214.6', 'learning_rate': '3.992e-05', 'epoch': '0.6065'}
+{'loss': '0.8098', 'grad_norm': '8.426', 'learning_rate': '3.967e-05', 'epoch': '0.6213'}
+{'loss': '0.8222', 'grad_norm': '29.11', 'learning_rate': '3.942e-05', 'epoch': '0.6361'}
+{'loss': '0.8181', 'grad_norm': '4.368', 'learning_rate': '3.918e-05', 'epoch': '0.6509'}
+{'loss': '0.8057', 'grad_norm': '11.04', 'learning_rate': '3.893e-05', 'epoch': '0.6657'}
+{'loss': '0.7923', 'grad_norm': '23.06', 'learning_rate': '3.868e-05', 'epoch': '0.6805'}
+{'loss': '0.7424', 'grad_norm': '5.916', 'learning_rate': '3.844e-05', 'epoch': '0.6953'}
+{'loss': '0.7834', 'grad_norm': '3.21', 'learning_rate': '3.819e-05', 'epoch': '0.7101'}
+{'loss': '0.7782', 'grad_norm': '33.24', 'learning_rate': '3.794e-05', 'epoch': '0.7249'}
+{'loss': '0.7411', 'grad_norm': '4.682', 'learning_rate': '3.77e-05', 'epoch': '0.7396'}
+{'loss': '0.8528', 'grad_norm': '4.552', 'learning_rate': '3.745e-05', 'epoch': '0.7544'}
+{'loss': '0.7178', 'grad_norm': '22.26', 'learning_rate': '3.72e-05', 'epoch': '0.7692'}
+{'loss': '0.8067', 'grad_norm': '16.57', 'learning_rate': '3.696e-05', 'epoch': '0.784'}
+{'loss': '0.7179', 'grad_norm': '4.125', 'learning_rate': '3.671e-05', 'epoch': '0.7988'}
+{'loss': '0.7287', 'grad_norm': '6.295', 'learning_rate': '3.646e-05', 'epoch': '0.8136'}
+{'loss': '0.7687', 'grad_norm': '5.209', 'learning_rate': '3.622e-05', 'epoch': '0.8284'}
+{'loss': '0.7223', 'grad_norm': '4.08', 'learning_rate': '3.597e-05', 'epoch': '0.8432'}
+{'loss': '0.7039', 'grad_norm': '4.663', 'learning_rate': '3.572e-05', 'epoch': '0.858'}
+{'loss': '0.8122', 'grad_norm': '6.358', 'learning_rate': '3.548e-05', 'epoch': '0.8728'}
+{'loss': '0.7391', 'grad_norm': '3.129', 'learning_rate': '3.523e-05', 'epoch': '0.8876'}
+{'loss': '0.7575', 'grad_norm': '2.657', 'learning_rate': '3.499e-05', 'epoch': '0.9024'}
+{'loss': '0.6779', 'grad_norm': '6.11', 'learning_rate': '3.474e-05', 'epoch': '0.9172'}
+{'loss': '0.7362', 'grad_norm': '2.914', 'learning_rate': '3.449e-05', 'epoch': '0.932'}
+{'loss': '0.6657', 'grad_norm': '5.714', 'learning_rate': '3.425e-05', 'epoch': '0.9467'}
+{'loss': '0.7051', 'grad_norm': '4.053', 'learning_rate': '3.4e-05', 'epoch': '0.9615'}
+{'loss': '0.5767', 'grad_norm': '5.356', 'learning_rate': '3.375e-05', 'epoch': '0.9763'}
+{'loss': '0.6664', 'grad_norm': '27.07', 'learning_rate': '3.351e-05', 'epoch': '0.9911'}
+{'eval_loss': '0.6583', 'eval_accuracy': '0.7292', 'eval_macro_f1': '0.5343', 'eval_runtime': '15.58', 'eval_samples_per_second': '154.3', 'eval_steps_per_second': '2.438', 'epoch': '1'}
+/Users/athens/Downloads/Coding/Thai Slang NLP Normalize/.venv/lib/python3.11/site-packages/torch/utils/data/dataloader.py:759: UserWarning: 'pin_memory' argument is set as true but not supported on MPS now, device pinned memory won't be used.
+  super().__init__(loader)
+{'loss': '0.6561', 'grad_norm': '7.227', 'learning_rate': '3.326e-05', 'epoch': '1.006'}
+{'loss': '0.6752', 'grad_norm': '3.242', 'learning_rate': '3.301e-05', 'epoch': '1.021'}
+{'loss': '0.5861', 'grad_norm': '16.56', 'learning_rate': '3.277e-05', 'epoch': '1.036'}
+{'loss': '0.5563', 'grad_norm': '8.394', 'learning_rate': '3.252e-05', 'epoch': '1.05'}
+{'loss': '0.5694', 'grad_norm': '5.19', 'learning_rate': '3.227e-05', 'epoch': '1.065'}
+{'loss': '0.6201', 'grad_norm': '2.51', 'learning_rate': '3.203e-05', 'epoch': '1.08'}
+{'loss': '0.5454', 'grad_norm': '3.519', 'learning_rate': '3.178e-05', 'epoch': '1.095'}
+{'loss': '0.6279', 'grad_norm': '3.07', 'learning_rate': '3.153e-05', 'epoch': '1.109'}
+{'loss': '0.6242', 'grad_norm': '12.93', 'learning_rate': '3.129e-05', 'epoch': '1.124'}
+{'loss': '0.7062', 'grad_norm': '5.278', 'learning_rate': '3.104e-05', 'epoch': '1.139'}
+{'loss': '0.5851', 'grad_norm': '3.791', 'learning_rate': '3.079e-05', 'epoch': '1.154'}
+{'loss': '0.6198', 'grad_norm': '3.292', 'learning_rate': '3.055e-05', 'epoch': '1.169'}
+{'loss': '0.6184', 'grad_norm': '4.431', 'learning_rate': '3.03e-05', 'epoch': '1.183'}
+{'loss': '0.5956', 'grad_norm': '4.282', 'learning_rate': '3.005e-05', 'epoch': '1.198'}
+{'loss': '0.5685', 'grad_norm': '12.64', 'learning_rate': '2.981e-05', 'epoch': '1.213'}
+{'loss': '0.6368', 'grad_norm': '3.479', 'learning_rate': '2.956e-05', 'epoch': '1.228'}
+{'loss': '0.5449', 'grad_norm': '61.49', 'learning_rate': '2.931e-05', 'epoch': '1.243'}
+{'loss': '0.5062', 'grad_norm': '3.126', 'learning_rate': '2.907e-05', 'epoch': '1.257'}
+{'loss': '0.5925', 'grad_norm': '7.49', 'learning_rate': '2.882e-05', 'epoch': '1.272'}
+{'loss': '0.5611', 'grad_norm': '3.494', 'learning_rate': '2.857e-05', 'epoch': '1.287'}
+{'loss': '0.6524', 'grad_norm': '141.6', 'learning_rate': '2.833e-05', 'epoch': '1.302'}
+{'loss': '0.5618', 'grad_norm': '4.504', 'learning_rate': '2.808e-05', 'epoch': '1.317'}
+{'loss': '0.6568', 'grad_norm': '5.835', 'learning_rate': '2.784e-05', 'epoch': '1.331'}
+{'loss': '0.5997', 'grad_norm': '161', 'learning_rate': '2.759e-05', 'epoch': '1.346'}
+{'loss': '0.5271', 'grad_norm': '3.387', 'learning_rate': '2.734e-05', 'epoch': '1.361'}
+{'loss': '0.6239', 'grad_norm': '35.37', 'learning_rate': '2.71e-05', 'epoch': '1.376'}
+{'loss': '0.6764', 'grad_norm': '9.128', 'learning_rate': '2.685e-05', 'epoch': '1.391'}
+{'loss': '0.5916', 'grad_norm': '3.65', 'learning_rate': '2.66e-05', 'epoch': '1.405'}
+{'loss': '0.5954', 'grad_norm': '7.561', 'learning_rate': '2.636e-05', 'epoch': '1.42'}
+{'loss': '0.6187', 'grad_norm': '5.098', 'learning_rate': '2.611e-05', 'epoch': '1.435'}
+{'loss': '0.5439', 'grad_norm': '3.111', 'learning_rate': '2.586e-05', 'epoch': '1.45'}
+{'loss': '0.6259', 'grad_norm': '5.237', 'learning_rate': '2.562e-05', 'epoch': '1.464'}
+{'loss': '0.5556', 'grad_norm': '82.47', 'learning_rate': '2.537e-05', 'epoch': '1.479'}
+{'loss': '0.586', 'grad_norm': '7.993', 'learning_rate': '2.512e-05', 'epoch': '1.494'}
+{'loss': '0.6557', 'grad_norm': '4.717', 'learning_rate': '2.488e-05', 'epoch': '1.509'}
+{'loss': '0.6068', 'grad_norm': '3.829', 'learning_rate': '2.463e-05', 'epoch': '1.524'}
+{'loss': '0.6261', 'grad_norm': '3.946', 'learning_rate': '2.438e-05', 'epoch': '1.538'}
+{'loss': '0.5642', 'grad_norm': '3.506', 'learning_rate': '2.414e-05', 'epoch': '1.553'}
+{'loss': '0.6584', 'grad_norm': '3.691', 'learning_rate': '2.389e-05', 'epoch': '1.568'}
+{'loss': '0.5906', 'grad_norm': '12.44', 'learning_rate': '2.364e-05', 'epoch': '1.583'}
+{'loss': '0.5716', 'grad_norm': '3.375', 'learning_rate': '2.34e-05', 'epoch': '1.598'}
+{'loss': '0.5945', 'grad_norm': '12.26', 'learning_rate': '2.315e-05', 'epoch': '1.612'}
+{'loss': '0.5834', 'grad_norm': '6.561', 'learning_rate': '2.29e-05', 'epoch': '1.627'}
+{'loss': '0.5813', 'grad_norm': '3.919', 'learning_rate': '2.266e-05', 'epoch': '1.642'}
+{'loss': '0.6175', 'grad_norm': '5.494', 'learning_rate': '2.241e-05', 'epoch': '1.657'}
+{'loss': '0.6019', 'grad_norm': '3.166', 'learning_rate': '2.216e-05', 'epoch': '1.672'}
+{'loss': '0.6047', 'grad_norm': '3.553', 'learning_rate': '2.192e-05', 'epoch': '1.686'}
+{'loss': '0.6152', 'grad_norm': '3.852', 'learning_rate': '2.167e-05', 'epoch': '1.701'}
+{'loss': '0.5672', 'grad_norm': '4.474', 'learning_rate': '2.143e-05', 'epoch': '1.716'}
+{'loss': '0.5562', 'grad_norm': '3.371', 'learning_rate': '2.118e-05', 'epoch': '1.731'}
+{'loss': '0.5793', 'grad_norm': '4.173', 'learning_rate': '2.093e-05', 'epoch': '1.746'}
+{'loss': '0.5701', 'grad_norm': '190.5', 'learning_rate': '2.069e-05', 'epoch': '1.76'}
+{'loss': '0.6597', 'grad_norm': '3.708', 'learning_rate': '2.044e-05', 'epoch': '1.775'}
+{'loss': '0.6246', 'grad_norm': '5.505', 'learning_rate': '2.019e-05', 'epoch': '1.79'}
+{'loss': '0.6334', 'grad_norm': '3.825', 'learning_rate': '1.995e-05', 'epoch': '1.805'}
+{'loss': '0.68', 'grad_norm': '3.737', 'learning_rate': '1.97e-05', 'epoch': '1.82'}
+{'loss': '0.7042', 'grad_norm': '14.64', 'learning_rate': '1.945e-05', 'epoch': '1.834'}
+{'loss': '0.6098', 'grad_norm': '4.15', 'learning_rate': '1.921e-05', 'epoch': '1.849'}
+{'loss': '0.6323', 'grad_norm': '5.402', 'learning_rate': '1.896e-05', 'epoch': '1.864'}
+{'loss': '0.6115', 'grad_norm': '3.938', 'learning_rate': '1.871e-05', 'epoch': '1.879'}
+{'loss': '0.6098', 'grad_norm': '3.765', 'learning_rate': '1.847e-05', 'epoch': '1.893'}
+{'loss': '0.6156', 'grad_norm': '22.57', 'learning_rate': '1.822e-05', 'epoch': '1.908'}
+{'loss': '0.6407', 'grad_norm': '6.711', 'learning_rate': '1.797e-05', 'epoch': '1.923'}
+{'loss': '0.592', 'grad_norm': '4.599', 'learning_rate': '1.773e-05', 'epoch': '1.938'}
+{'loss': '0.6075', 'grad_norm': '23.49', 'learning_rate': '1.748e-05', 'epoch': '1.953'}
+{'loss': '0.5708', 'grad_norm': '3.692', 'learning_rate': '1.723e-05', 'epoch': '1.967'}
+{'loss': '0.5985', 'grad_norm': '6.059', 'learning_rate': '1.699e-05', 'epoch': '1.982'}
+{'loss': '0.598', 'grad_norm': '8.72', 'learning_rate': '1.674e-05', 'epoch': '1.997'}
+{'eval_loss': '0.6784', 'eval_accuracy': '0.7217', 'eval_macro_f1': '0.5706', 'eval_runtime': '15.77', 'eval_samples_per_second': '152.4', 'eval_steps_per_second': '2.41', 'epoch': '2'}
+/Users/athens/Downloads/Coding/Thai Slang NLP Normalize/.venv/lib/python3.11/site-packages/torch/utils/data/dataloader.py:759: UserWarning: 'pin_memory' argument is set as true but not supported on MPS now, device pinned memory won't be used.
+  super().__init__(loader)
+{'loss': '0.6214', 'grad_norm': '63.38', 'learning_rate': '1.649e-05', 'epoch': '2.012'}
+{'loss': '0.5492', 'grad_norm': '71.58', 'learning_rate': '1.625e-05', 'epoch': '2.027'}
+{'loss': '0.4943', 'grad_norm': '12.55', 'learning_rate': '1.6e-05', 'epoch': '2.041'}
+{'loss': '0.5308', 'grad_norm': '3.655', 'learning_rate': '1.575e-05', 'epoch': '2.056'}
+{'loss': '0.5531', 'grad_norm': '138.4', 'learning_rate': '1.551e-05', 'epoch': '2.071'}
+{'loss': '0.5794', 'grad_norm': '27.87', 'learning_rate': '1.526e-05', 'epoch': '2.086'}
+{'loss': '0.5347', 'grad_norm': '9.71', 'learning_rate': '1.501e-05', 'epoch': '2.101'}
+{'loss': '0.5613', 'grad_norm': '4.075', 'learning_rate': '1.477e-05', 'epoch': '2.115'}
+{'loss': '0.5269', 'grad_norm': '4.145', 'learning_rate': '1.452e-05', 'epoch': '2.13'}
+{'loss': '0.538', 'grad_norm': '22.96', 'learning_rate': '1.428e-05', 'epoch': '2.145'}
+{'loss': '0.4914', 'grad_norm': '22.03', 'learning_rate': '1.403e-05', 'epoch': '2.16'}
+{'loss': '0.5162', 'grad_norm': '3.219', 'learning_rate': '1.378e-05', 'epoch': '2.175'}
+{'loss': '0.5834', 'grad_norm': '9.906', 'learning_rate': '1.354e-05', 'epoch': '2.189'}
+{'loss': '0.5231', 'grad_norm': '128.8', 'learning_rate': '1.329e-05', 'epoch': '2.204'}
+{'loss': '0.5929', 'grad_norm': '4.575', 'learning_rate': '1.304e-05', 'epoch': '2.219'}
+{'loss': '0.5263', 'grad_norm': '6.88', 'learning_rate': '1.28e-05', 'epoch': '2.234'}
+{'loss': '0.5557', 'grad_norm': '6.895', 'learning_rate': '1.255e-05', 'epoch': '2.249'}
+{'loss': '0.5372', 'grad_norm': '3.735', 'learning_rate': '1.23e-05', 'epoch': '2.263'}
+{'loss': '0.4764', 'grad_norm': '5.668', 'learning_rate': '1.206e-05', 'epoch': '2.278'}
+{'loss': '0.5868', 'grad_norm': '55.39', 'learning_rate': '1.181e-05', 'epoch': '2.293'}
+{'loss': '0.5142', 'grad_norm': '145.3', 'learning_rate': '1.156e-05', 'epoch': '2.308'}
+{'loss': '0.523', 'grad_norm': '6.345', 'learning_rate': '1.132e-05', 'epoch': '2.322'}
+{'loss': '0.575', 'grad_norm': '5.465', 'learning_rate': '1.107e-05', 'epoch': '2.337'}
+{'loss': '0.5113', 'grad_norm': '10.81', 'learning_rate': '1.082e-05', 'epoch': '2.352'}
+{'loss': '0.5127', 'grad_norm': '3.8', 'learning_rate': '1.058e-05', 'epoch': '2.367'}
+{'loss': '0.4771', 'grad_norm': '39.51', 'learning_rate': '1.033e-05', 'epoch': '2.382'}
+{'loss': '0.5107', 'grad_norm': '3.944', 'learning_rate': '1.008e-05', 'epoch': '2.396'}
+{'loss': '0.5498', 'grad_norm': '4.331', 'learning_rate': '9.837e-06', 'epoch': '2.411'}
+{'loss': '0.4812', 'grad_norm': '3.906', 'learning_rate': '9.591e-06', 'epoch': '2.426'}
+{'loss': '0.4726', 'grad_norm': '8.089', 'learning_rate': '9.344e-06', 'epoch': '2.441'}
+{'loss': '0.468', 'grad_norm': '4.154', 'learning_rate': '9.098e-06', 'epoch': '2.456'}
+{'loss': '0.5653', 'grad_norm': '5.402', 'learning_rate': '8.851e-06', 'epoch': '2.47'}
+{'loss': '0.5721', 'grad_norm': '16.49', 'learning_rate': '8.605e-06', 'epoch': '2.485'}
+{'loss': '0.598', 'grad_norm': '4.967', 'learning_rate': '8.358e-06', 'epoch': '2.5'}
+{'loss': '0.4914', 'grad_norm': '3.986', 'learning_rate': '8.111e-06', 'epoch': '2.515'}
+{'loss': '0.4585', 'grad_norm': '9.627', 'learning_rate': '7.865e-06', 'epoch': '2.53'}
+{'loss': '0.4386', 'grad_norm': '22.69', 'learning_rate': '7.618e-06', 'epoch': '2.544'}
+{'loss': '0.4912', 'grad_norm': '4.492', 'learning_rate': '7.372e-06', 'epoch': '2.559'}
+{'loss': '0.4976', 'grad_norm': '3.576', 'learning_rate': '7.125e-06', 'epoch': '2.574'}
+{'loss': '0.4227', 'grad_norm': '6.32', 'learning_rate': '6.879e-06', 'epoch': '2.589'}
+{'loss': '0.4477', 'grad_norm': '2623', 'learning_rate': '6.632e-06', 'epoch': '2.604'}
+{'loss': '0.4458', 'grad_norm': '2.846', 'learning_rate': '6.386e-06', 'epoch': '2.618'}
+{'loss': '0.5919', 'grad_norm': '32.57', 'learning_rate': '6.139e-06', 'epoch': '2.633'}
+{'loss': '0.4361', 'grad_norm': '15.04', 'learning_rate': '5.893e-06', 'epoch': '2.648'}
+{'loss': '0.4848', 'grad_norm': '7.075', 'learning_rate': '5.646e-06', 'epoch': '2.663'}
+{'loss': '0.509', 'grad_norm': '4.853', 'learning_rate': '5.399e-06', 'epoch': '2.678'}
+{'loss': '0.5122', 'grad_norm': '35.78', 'learning_rate': '5.153e-06', 'epoch': '2.692'}
+{'loss': '0.5698', 'grad_norm': '19.79', 'learning_rate': '4.906e-06', 'epoch': '2.707'}
+{'loss': '0.4863', 'grad_norm': '21.17', 'learning_rate': '4.66e-06', 'epoch': '2.722'}
+{'loss': '0.5381', 'grad_norm': '5.111', 'learning_rate': '4.413e-06', 'epoch': '2.737'}
+{'loss': '0.5618', 'grad_norm': '11.46', 'learning_rate': '4.167e-06', 'epoch': '2.751'}
+{'loss': '0.5193', 'grad_norm': '5.814', 'learning_rate': '3.92e-06', 'epoch': '2.766'}
+{'loss': '0.4632', 'grad_norm': '3.193', 'learning_rate': '3.674e-06', 'epoch': '2.781'}
+{'loss': '0.4323', 'grad_norm': '5.933', 'learning_rate': '3.427e-06', 'epoch': '2.796'}
+{'loss': '0.4581', 'grad_norm': '6.681', 'learning_rate': '3.18e-06', 'epoch': '2.811'}
+{'loss': '0.4863', 'grad_norm': '7.7', 'learning_rate': '2.934e-06', 'epoch': '2.825'}
+{'loss': '0.4265', 'grad_norm': '4.559', 'learning_rate': '2.687e-06', 'epoch': '2.84'}
+{'loss': '0.5002', 'grad_norm': '88.96', 'learning_rate': '2.441e-06', 'epoch': '2.855'}
+{'loss': '0.5222', 'grad_norm': '4.073', 'learning_rate': '2.194e-06', 'epoch': '2.87'}
+{'loss': '0.4165', 'grad_norm': '3.854', 'learning_rate': '1.948e-06', 'epoch': '2.885'}
+{'loss': '0.4895', 'grad_norm': '3.917', 'learning_rate': '1.701e-06', 'epoch': '2.899'}
+{'loss': '0.4615', 'grad_norm': '7.556', 'learning_rate': '1.455e-06', 'epoch': '2.914'}
+{'loss': '0.4196', 'grad_norm': '30.17', 'learning_rate': '1.208e-06', 'epoch': '2.929'}
+{'loss': '0.415', 'grad_norm': '4.171', 'learning_rate': '9.615e-07', 'epoch': '2.944'}
+{'loss': '0.5112', 'grad_norm': '6.466', 'learning_rate': '7.15e-07', 'epoch': '2.959'}
+{'loss': '0.5001', 'grad_norm': '7.981', 'learning_rate': '4.684e-07', 'epoch': '2.973'}
+{'loss': '0.4975', 'grad_norm': '4.317', 'learning_rate': '2.219e-07', 'epoch': '2.988'}
+{'eval_loss': '0.6681', 'eval_accuracy': '0.7334', 'eval_macro_f1': '0.5932', 'eval_runtime': '15.51', 'eval_samples_per_second': '155', 'eval_steps_per_second': '2.451', 'epoch': '3'}
+{'train_runtime': '1716', 'train_samples_per_second': '37.81', 'train_steps_per_second': '1.182', 'train_loss': '0.652', 'epoch': '3'}
+/Users/athens/Downloads/Coding/Thai Slang NLP Normalize/.venv/lib/python3.11/site-packages/torch/utils/data/dataloader.py:759: UserWarning: 'pin_memory' argument is set as true but not supported on MPS now, device pinned memory won't be used.
+  super().__init__(loader)
+{
+  "variant": "raw",
+  "accuracy": 0.7435417446649195,
+  "macro_f1": 0.64278432988293,
+  "per_class_f1": {
+    "pos": 0.49747474747474746,
+    "neu": 0.794353545075393,
+    "neg": 0.7895131086142322,
+    "q": 0.4897959183673469
+  },
+  "confusion_matrix": [
+    [
+      197,
+      258,
+      21,
+      2
+    ],
+    [
+      99,
+      1238,
+      102,
+      14
+    ],
+    [
+      17,
+      138,
+      527,
+      1
+    ],
+    [
+      1,
+      30,
+      2,
+      24
+    ]
+  ],
+  "label_names": [
+    "pos",
+    "neu",
+    "neg",
+    "q"
+  ]
+}

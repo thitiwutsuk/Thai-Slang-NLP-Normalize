@@ -1,0 +1,16 @@
+.venv/
+__pycache__/
+*.pyc
+.pytest_cache/
+.ipynb_checkpoints/
+.DS_Store
+
+# Claude Code session metadata (local to this machine, not project content)
+.claude/
+
+# HF hub cache (data/raw/ is fetched via scripts/fetch_data.py and IS tracked)
+.cache/
+*.hf_cache/
+
+# secrets
+.env
