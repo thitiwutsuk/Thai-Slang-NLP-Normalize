@@ -143,6 +143,20 @@ st.markdown(
   once on the raw `texts` column, once on `normalize_thai()`'s output
 """
 )
+
+st.markdown("**`normalize_thai()` in action** — computed live, right now, by this app:")
+_example_result = normalize_thai("อาหารช้ามากกกกก มั้ยอ่ะ เค้าไม่ชอบ 😭😭😭")
+st.code(json.dumps(_example_result, ensure_ascii=False, indent=2), language="json")
+with st.expander("Design notes / known gaps"):
+    st.markdown(
+        """
+        - Elongation reduction skips digit runs (`555` = laughter, not a typo) and emoji runs — only collapses letters/punctuation
+        - The slang dictionary only corrects entries seen ≥3 times in MultiLexNorm++'s training data (17k+ entries) — coverage gaps remain (e.g. `ชิมิ` isn't in it, so it still gets mis-tokenized)
+        - The dictionary also requires a **strict majority** (>50% of annotations), not just a plurality — some source entries record their "norm" from a 3-way split or an exact tie (e.g. `โมง`, a normal word for "o'clock", was tied 7/14 between "keep" and "delete," and originally defaulted to deleting it)
+        - Emoji/text-emoticons map to one of 3 tags: `[pos_emoji]`, `[neg_emoji]`, `[emoji]` (unrecognized) — a coarse sentiment signal, not per-emotion granularity
+        """
+    )
+
 st.markdown("**Training & evaluation workflow** — run twice (raw text, normalized text), identically except for step 2:")
 st.markdown(
     """
