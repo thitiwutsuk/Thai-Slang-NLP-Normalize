@@ -29,21 +29,6 @@ Normalizes informal Thai social text (elongation, slang, emoji) into a standard 
 </tr>
 </table>
 
-## Contents
-
-- [Preview](#preview)
-- [Problem](#problem)
-- [Pipeline](#pipeline)
-- [Methodology](#methodology)
-- [Normalization Core](#normalization-core)
-- [Datasets](#datasets)
-- [Results](#results)
-- [Module Reference](#module-reference)
-- [Project Structure](#project-structure)
-- [Setup](#setup)
-- [Usage](#usage)
-- [Roadmap](#roadmap)
-
 ## Problem
 
 - Thai social text (comments, reviews, chats) breaks standard NLP models trained on formal text
