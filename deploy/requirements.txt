@@ -1,0 +1,9 @@
+gradio
+torch
+transformers
+sentencepiece
+protobuf
+pythainlp>=5.0
+regex
+emoji
+huggingface_hub
