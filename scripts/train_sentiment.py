@@ -49,6 +49,8 @@ def main() -> None:
     parser.add_argument("--max-length", type=int, default=64)
     parser.add_argument("--output-dir", default="results")
     parser.add_argument("--limit", type=int, default=None, help="truncate each split, for smoke-testing")
+    parser.add_argument("--save-model-dir", default=None, help="if set, save the trained model+tokenizer here")
+    parser.add_argument("--warmup-ratio", type=float, default=0.0, help="fraction of steps for linear LR warmup")
     args = parser.parse_args()
 
     device = "mps" if torch.backends.mps.is_available() else ("cuda" if torch.cuda.is_available() else "cpu")
@@ -80,6 +82,11 @@ def main() -> None:
     model = AutoModelForSequenceClassification.from_pretrained(MODEL_NAME, num_labels=4)
     print("[train_sentiment] model loaded, starting Trainer.train()", flush=True)
 
+    steps_per_epoch = -(-len(train_ds) // args.batch_size)  # ceil div
+    total_steps = steps_per_epoch * args.epochs
+    warmup_steps = int(total_steps * args.warmup_ratio)
+    print(f"[train_sentiment] total_steps={total_steps} warmup_steps={warmup_steps}", flush=True)
+
     training_args = TrainingArguments(
         output_dir=f"/tmp/wangchanberta-{args.variant}",
         num_train_epochs=args.epochs,
@@ -91,6 +98,8 @@ def main() -> None:
         disable_tqdm=True,
         report_to=[],
         seed=42,
+        warmup_steps=warmup_steps,
+        max_grad_norm=1.0,
     )
 
     trainer = Trainer(
@@ -102,6 +111,11 @@ def main() -> None:
     )
 
     trainer.train()
+
+    if args.save_model_dir:
+        trainer.save_model(args.save_model_dir)
+        tokenizer.save_pretrained(args.save_model_dir)
+        print(f"[train_sentiment] saved model to {args.save_model_dir}", flush=True)
 
     test_output = trainer.predict(test_ds.remove_columns(["text"]))
     preds = np.argmax(test_output.predictions, axis=-1)

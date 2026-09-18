@@ -18,3 +18,8 @@ gradio
 python-dotenv
 
 pytest
+
+matplotlib
+jupyter
+nbconvert
+ipykernel

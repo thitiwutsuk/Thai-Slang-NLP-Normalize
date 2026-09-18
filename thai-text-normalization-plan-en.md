@@ -69,17 +69,17 @@ Standard NLP models (e.g. sentiment analysis, NER) are trained mainly on formal 
 - [x] Compare accuracy, F1, and confusion matrix between the two setups
 
 ### Phase 4: Evaluation & Analysis
-- [ ] Build tables/charts comparing before vs. after normalization
-- [ ] Analyze error cases that normalization actually fixed (curate examples)
-- [ ] Document limitations (e.g. slang not covered by the dictionary, sarcasm)
+- [x] Build tables/charts comparing before vs. after normalization
+- [x] Analyze error cases that normalization actually fixed (curate examples)
+- [x] Document limitations (e.g. slang not covered by the dictionary, sarcasm)
 
 ### Phase 5: Demo App
-- [ ] Build a Gradio interface: input text box → normalized text (highlight corrections) + sentiment + confidence
-- [ ] Deploy to Hugging Face Spaces
+- [x] Build a Gradio interface: input text box → normalized text (highlight corrections) + sentiment + confidence
+- [ ] Deploy to Hugging Face Spaces (needs the user's HF account/credentials)
 
 ### Phase 6: Documentation
-- [ ] Write README (problem, approach, results, how to run)
-- [ ] Write a short report/slide summarizing results (for thesis/portfolio use)
+- [x] Write README (problem, approach, results, how to run)
+- [x] Write a short report/slide summarizing results (for thesis/portfolio use)
 
 ---
 
