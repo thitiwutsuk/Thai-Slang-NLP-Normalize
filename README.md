@@ -1,12 +1,15 @@
 # Thai Text Normalization
 
-![Python](https://img.shields.io/badge/python-3.11-3776AB?logo=python&logoColor=white)
-![PyThaiNLP](https://img.shields.io/badge/NLP-PyThaiNLP-orange)
-![Transformers](https://img.shields.io/badge/model-WangchanBERTa-yellow?logo=huggingface&logoColor=white)
-![PyTorch](https://img.shields.io/badge/backend-PyTorch%20%2F%20MPS-EE4C2C?logo=pytorch&logoColor=white)
-![Gradio](https://img.shields.io/badge/demo-Gradio-F97316?logo=gradio&logoColor=white)
-![Tests](https://img.shields.io/badge/tests-pytest-0A9EDC?logo=pytest&logoColor=white)
-![Status](https://img.shields.io/badge/status-in%20progress-blue)
+![Python](https://img.shields.io/badge/Python-3776AB?style=for-the-badge&logo=python&logoColor=white)
+![PyThaiNLP](https://img.shields.io/badge/PyThaiNLP-E8590C?style=for-the-badge)
+![HuggingFace](https://img.shields.io/badge/HuggingFace-000000?style=for-the-badge&logo=huggingface&logoColor=FFD21E)
+![PyTorch](https://img.shields.io/badge/PyTorch-EE4C2C?style=for-the-badge&logo=pytorch&logoColor=white)
+![scikit--learn](https://img.shields.io/badge/scikit--learn-F7931E?style=for-the-badge&logo=scikitlearn&logoColor=white)
+![NumPy](https://img.shields.io/badge/NumPy-013243?style=for-the-badge&logo=numpy&logoColor=white)
+![Gradio](https://img.shields.io/badge/Gradio-FF7C00?style=for-the-badge&logo=gradio&logoColor=white)
+![pytest](https://img.shields.io/badge/pytest-0A9EDC?style=for-the-badge&logo=pytest&logoColor=white)
+
+![Status](https://img.shields.io/badge/status-in%20progress-blue?style=flat-square)
 
 Normalizes informal Thai social text (elongation, slang, emoji) into a standard form, to measure how much it improves downstream sentiment classification accuracy.
 
@@ -14,6 +17,7 @@ Normalizes informal Thai social text (elongation, slang, emoji) into a standard 
 
 - [Problem](#problem)
 - [Pipeline](#pipeline)
+- [Methodology](#methodology)
 - [Normalization Core](#normalization-core)
 - [Datasets](#datasets)
 - [Results](#results)
@@ -42,6 +46,25 @@ Normalizes informal Thai social text (elongation, slang, emoji) into a standard 
 - **Classify** ([scripts/train_sentiment.py](scripts/train_sentiment.py)) — fine-tune WangchanBERTa on Wisesight Sentiment, raw vs. normalized text
 - **Evaluate** ([scripts/evaluate_results.py](scripts/evaluate_results.py)) — compare accuracy/F1/confusion matrices, curate cases normalization fixed
 - **Demo** *(planned)* — Gradio app deployed to Hugging Face Spaces
+
+## Methodology
+
+- **Normalization is rule + dictionary based, not learned** — deterministic and identical regardless of downstream task
+  - Runs **character-level fixes first** (elongation, emoji/emoticons), *before* tokenizing — PyThaiNLP's tokenizer mis-segments elongated/slang input (`"อร่อยยยยชิมิ"` → `['อร่อย', 'ยยย', 'ชิ', 'มิ']`), so fixing characters after tokenizing would be too late
+  - Runs **token-level correction second** (slang dictionary lookup) on the already-tokenized, already-cleaned text
+  - The slang dictionary itself is majority-vote statistics mined from MultiLexNorm++'s annotated corpus (17k+ entries), filtered to entries seen ≥3 times to drop one-off noise
+- **Sentiment classification is transfer learning, not training from scratch**
+  - Base model: `airesearch/wangchanberta-base-att-spm-uncased` (a RoBERTa-family model pretrained on Thai text)
+  - A new classification head (`AutoModelForSequenceClassification`, 4 labels) is bolted on top with randomly-initialized weights and trained from there
+  - Loss: cross-entropy · Optimizer: AdamW · LR: 5e-5 with linear decay, no warmup
+  - 3 epochs, batch size 32, max sequence length 64 tokens; evaluated on the validation split at the end of every epoch
+- **The raw-vs-normalized comparison is a controlled experiment** — exactly one variable changes between the two training runs
+  - Same base model, same hyperparameters, same random seed (42), same train/validation/test split
+  - `raw` run trains on the dataset's `texts` column unmodified
+  - `normalized` run trains on `normalize_thai(text)["normalized_text"]` instead — nothing else in the training loop differs
+  - Any accuracy/F1 delta between the two runs can therefore be attributed to normalization itself, not to incidental setup differences
+- **Evaluation is done once, on held-out data** — final metrics come from the **test** split, which the model never sees during training or epoch-by-epoch validation
+  - Reports **macro-F1 alongside accuracy**, since Wisesight's labels are imbalanced (`neu` ~55% vs. `q` ~2%) and accuracy alone would hide how badly the minority classes are doing
 
 ## Normalization Core
 
