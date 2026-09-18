@@ -7,14 +7,31 @@
 ![scikit--learn](https://img.shields.io/badge/scikit--learn-F7931E?style=for-the-badge&logo=scikitlearn&logoColor=white)
 ![NumPy](https://img.shields.io/badge/NumPy-013243?style=for-the-badge&logo=numpy&logoColor=white)
 ![Gradio](https://img.shields.io/badge/Gradio-FF7C00?style=for-the-badge&logo=gradio&logoColor=white)
+![Streamlit](https://img.shields.io/badge/Streamlit-FF4B4B?style=for-the-badge&logo=streamlit&logoColor=white)
 ![pytest](https://img.shields.io/badge/pytest-0A9EDC?style=for-the-badge&logo=pytest&logoColor=white)
 
 ![Status](https://img.shields.io/badge/status-in%20progress-blue?style=flat-square)
 
 Normalizes informal Thai social text (elongation, slang, emoji) into a standard form, to measure how much it improves downstream sentiment classification accuracy.
 
+**Live demo:** deploy `streamlit_app.py` to [Streamlit Community Cloud](https://share.streamlit.io) and update this link · **Model:** [thitiwutsuk/thai-sentiment-wangchanberta](https://huggingface.co/thitiwutsuk/thai-sentiment-wangchanberta) on the Hugging Face Hub
+
+## Preview
+
+<table>
+<tr>
+<td width="50%"><img src="docs/screenshots/streamlit_report.png" alt="Streamlit report — problem, datasets, method"></td>
+<td width="50%"><img src="docs/screenshots/streamlit_results.png" alt="Streamlit report — results, per-class F1 chart"></td>
+</tr>
+<tr>
+<td width="50%"><img src="docs/screenshots/streamlit_demo.png" alt="Streamlit live demo — sentiment prediction and corrections"></td>
+<td width="50%"><img src="docs/screenshots/huggingface_model.png" alt="Hugging Face model card"></td>
+</tr>
+</table>
+
 ## Contents
 
+- [Preview](#preview)
 - [Problem](#problem)
 - [Pipeline](#pipeline)
 - [Methodology](#methodology)
@@ -152,11 +169,17 @@ Full comparison table, confusion matrices, fixed/broken examples, and documented
 ## Project Structure
 
 ```
-src/            reusable normalize_thai() pipeline code
-scripts/        data-fetching, exploration, training, and evaluation scripts
-tests/          pytest unit tests (one file per src/ module)
-data/raw/       raw dataset files, fetched via scripts/fetch_data.py (git-tracked)
-results/        saved metrics, predictions, and training logs (git-tracked)
+src/                reusable normalize_thai() pipeline code
+scripts/            data-fetching, exploration, training, and evaluation scripts
+tests/              pytest unit tests (one file per src/ module)
+data/raw/           raw dataset files, fetched via scripts/fetch_data.py (git-tracked)
+results/            saved metrics, predictions, and training logs (git-tracked)
+models/             local model checkpoints (gitignored — retrain to regenerate)
+notebooks/          project_report.ipynb, a fully-executed narrative report
+docs/screenshots/   README preview images
+deploy/             Space/model-card metadata for deployment
+app.py              Gradio demo (local only — Spaces now requires a PRO plan for Gradio/Docker)
+streamlit_app.py    Streamlit demo + on-page report (deployable on Streamlit Community Cloud, free)
 thai-text-normalization-plan-en.md   full project plan & milestones
 ```
 
@@ -198,11 +221,21 @@ python -m scripts.fetch_data   # copies the raw dataset files into data/raw/
   ```bash
   python -m pytest -q
   ```
-- Run the Gradio demo (needs a saved model first — see below)
+- Run the Gradio demo locally (needs a saved model first — see below)
   ```bash
   python -m scripts.train_sentiment --variant normalized --save-model-dir models/wangchanberta-normalized
   python app.py
   ```
+  - Not deployable to Hugging Face Spaces for free as of this project — HF now requires a PRO
+    subscription to host Gradio/Docker Spaces (only static, no-backend Spaces are free)
+- Run the Streamlit demo (report + live demo on one page)
+  ```bash
+  streamlit run streamlit_app.py
+  ```
+  - Loads its model straight from the Hugging Face Hub (`thitiwutsuk/thai-sentiment-wangchanberta`,
+    a free model repo, not a Space) — no local checkpoint needed
+  - Deployable for free on [Streamlit Community Cloud](https://share.streamlit.io): connect the
+    GitHub repo, set the main file to `streamlit_app.py`, deploy
 
 ## Roadmap
 

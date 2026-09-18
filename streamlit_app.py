@@ -143,13 +143,24 @@ st.markdown(
   once on the raw `texts` column, once on `normalize_thai()`'s output
 """
 )
+st.markdown("**Training & evaluation workflow** — run twice (raw text, normalized text), identically except for step 2:")
+st.markdown(
+    """
+    1. **Split** — use Wisesight's own train / validation / test split as-is: 21,628 / 2,404 / 2,671 examples. No re-shuffling, so both runs see exactly the same examples in each split.
+    2. **Build inputs** — tokenize each split's text with WangchanBERTa's tokenizer (max 64 tokens); this is the *only* step that differs between the two runs (raw `texts` vs. `normalize_thai()` output).
+    3. **Train** — fine-tune for 3 epochs on the **train** split only. The model never sees validation or test examples during this step.
+    4. **Validate every epoch** — after each epoch, run inference on the **validation** split and log accuracy/macro-F1. This checks training is progressing normally; no early stopping or checkpoint selection is done — it's a fixed 3-epoch run either way.
+    5. **Test once, at the end** — after all 3 epochs, run one final pass on the **test** split, which the model has never seen in steps 3 or 4. This is the only number reported as "the" result — it's what the metrics below come from.
+    """
+)
 with st.expander("Full training details"):
     st.markdown(
         """
         - New 4-class classification head on top of `airesearch/wangchanberta-base-att-spm-uncased`, randomly initialized
         - Loss: cross-entropy · Optimizer: AdamW · LR: 5e-5 with linear decay and 10% warmup
         - 3 epochs, batch size 32, max sequence length 64 tokens
-        - Final metrics come from the **test** split, never seen during training or per-epoch validation
+        - Same random seed (42) for both runs, so weight initialization and data order match —
+          the only intentional difference is the input text
         """
     )
 
