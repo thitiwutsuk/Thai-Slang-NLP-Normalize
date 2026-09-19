@@ -103,45 +103,73 @@ st.caption(
     "followed by a live demo you can try yourself at the bottom."
 )
 
-st.header("1. Problem")
+st.markdown(
+    "**Executive summary.** Informal Thai social text routinely defeats NLP models trained on "
+    "formal language. This project built a rule-based normalizer and measured its effect on a "
+    "fine-tuned sentiment classifier in a controlled experiment: normalization raised "
+    f":orange[**macro-F1 by 1.2 percentage points**], concentrated almost entirely in the two "
+    "minority sentiment classes, while overall accuracy stayed effectively flat."
+)
+
+st.header("Problem Statement")
 st.markdown(
     """
-Thai social text (comments, reviews, chats) breaks standard NLP models trained on formal text:
+Informal Thai text — social comments, product reviews, chat messages — routinely breaks NLP
+models trained on formal, edited language. This matters commercially: sentiment analysis on
+exactly this kind of text underpins social listening, customer-feedback triage, and review
+moderation, so systematic misreadings translate directly into misclassified customer signal.
+Three failure modes recur constantly:
 
-- **Elongation** — `อร่อยยยยย` (soooo delicious)
-- **Slang / abbreviations** — `ทามมาย` (ทำไม), `ชิมิ` (ใช่ไหม), `555` (laughter)
-- **Emoji / symbols** — 😭, T_T, 😂
+- **Elongation** — `อร่อยยยยย` ("sooo delicious"), used for emphasis and stripped of meaning by most tokenizers
+- **Slang and abbreviations** — `ทามมาย` (ทำไม, "why"), `ชิมิ` (ใช่ไหม, "right?"), `555` (a laughter marker)
+- **Emoji and symbols** — 😭, T_T, 😂, carrying sentiment that plain-text models never see
 
-It gets worse once you tokenize: PyThaiNLP's word-splitter turns `อร่อยยยยชิมิ` into
-`['อร่อย', 'ยยย', 'ชิ', 'มิ']` — the elongation and the slang both get mangled into garbage
-tokens instead of being recognized as words.
+Tokenization compounds the problem rather than absorbing it: PyThaiNLP's word-splitter turns
+`อร่อยยยยชิมิ` into `['อร่อย', 'ยยย', 'ชิ', 'มิ']` — elongation and slang both fragment into
+meaningless tokens instead of being recognized as words. In this project's own training data,
+roughly :orange[**4.7% of tokens**] required correction of exactly this kind.
 
-**Goal:** build a `normalize_thai()` function that cleans this up, and *measure* — not
-assume — whether doing so actually improves sentiment classification.
+**Objective.** Build a `normalize_thai()` function that resolves these three failure modes, and
+*measure* — rather than assume — whether doing so actually improves downstream sentiment
+classification accuracy.
 """
 )
 
-st.header("2. Datasets")
+st.header("Data Sources")
 st.markdown(
     """
-| Dataset | Used for | Key fact |
+Two public, purpose-built datasets were selected: one to supply normalization knowledge, the
+other to provide an independent benchmark for measuring its downstream effect.
+
+| Dataset | Role | Key fact |
 |---|---|---|
 | **MultiLexNorm++** (Thai slice) | Source of the slang → standard-form dictionary | 17k+ mined entries; ~4.7% of tokens in the training data needed correction |
-| **Wisesight Sentiment** | Training & evaluating the sentiment classifier | 21,628 / 2,404 / 2,671 train/val/test; labels are imbalanced (`neu` ~55%, `q` only ~2%) |
+| **Wisesight Sentiment** | Training and evaluating the sentiment classifier | 21,628 / 2,404 / 2,671 train / validation / test; labels are imbalanced (`neu` ~55%, `q` only ~2%) |
+
+Wisesight was chosen specifically because it is drawn from real, short-form Thai social media
+posts rather than curated review text — the same register the normalization pipeline targets.
 """
 )
-st.caption("Because labels are imbalanced, **macro-F1** is tracked alongside accuracy — accuracy alone would hide how the minority classes perform.")
+st.caption("Because labels are imbalanced, **macro-F1** is tracked alongside accuracy throughout this report — accuracy alone would hide how the minority classes perform.")
 
-st.header("3. Method")
+st.header("Methodology")
 st.markdown(
     """
+The pipeline separates two concerns deliberately: normalization is a fixed, deterministic
+preprocessing step, and its effect is isolated with a controlled experiment rather than inferred
+from a single training run.
+
 - **Normalize first, at the character level** — collapse elongation (`มากกกก` → `มาก`) and map
-  emoji/emoticons to a sentiment tag (`😭` → `[neg_emoji]`), *before* tokenizing
+  emoji/emoticons to a sentiment tag (`😭` → `[neg_emoji]`), *before* tokenizing. Order matters:
+  running the tokenizer on un-normalized text is what produces the garbage tokens described above.
 - **Then correct at the token level** — look up each word in a slang dictionary mined from
   MultiLexNorm++'s annotated corpus (e.g. `มั้ย` → `ไหม`, `เค้า` → `เขา`)
-- **Fine-tune WangchanBERTa** (a Thai RoBERTa model) on Wisesight Sentiment — twice, with
-  everything (base model, hyperparameters, random seed) held identical except the input text:
-  once on the raw `texts` column, once on `normalize_thai()`'s output
+- **Fine-tune WangchanBERTa** — a RoBERTa-architecture model pretrained specifically on Thai text,
+  chosen over multilingual alternatives for its stronger native handling of Thai morphology and
+  the absence of word boundaries. Trained twice on Wisesight Sentiment, with everything (base
+  model, hyperparameters, random seed) held identical except the input text: once on the raw
+  `texts` column, once on `normalize_thai()`'s output — isolating normalization as the one
+  variable that changes between runs
 """
 )
 
@@ -179,7 +207,11 @@ with st.expander("Full training details"):
         """
     )
 
-st.header("4. Results")
+st.header("Results & Analysis")
+st.markdown(
+    "All figures below come from a single held-out **test set** (2,671 examples) that neither "
+    "model saw during training or validation — the same split, evaluated twice, once per variant."
+)
 
 try:
     bench = load_benchmark()
@@ -208,7 +240,7 @@ try:
     st.bar_chart(per_class)
     st.success(
         "Accuracy barely moves (dominated by the majority Neutral/Negative classes), but "
-        "**macro-F1 improves by +1.2pp** — almost entirely from the minority classes: "
+        f":orange[**macro-F1 improves by +1.2pp**] — almost entirely from the minority classes: "
         "Positive +3.2pp, Question +1.9pp."
     )
 
@@ -218,6 +250,14 @@ try:
         c1.dataframe(confusion_df(raw_metrics["confusion_matrix"]))
         c2.caption("Normalized text")
         c2.dataframe(confusion_df(norm_metrics["confusion_matrix"]))
+        st.caption(
+            "Reading a row shows where that true class's examples ended up. On raw text, both "
+            "Positive (197 correct vs. 258 confused as Neutral) and Question (24 vs. 30) are "
+            "more often mistaken for Neutral than classified correctly. Normalization flips this "
+            "for Positive (226 correct vs. 220 confused) but Question stays borderline (27 vs. "
+            "28) — consistent with Neutral's ~55% training share giving the model a strong prior "
+            "toward it whenever a signal is ambiguous."
+        )
 
     st.markdown("**What actually changed, prediction by prediction**")
     fixed, regressed, fixed_wc = bench["fixed"], bench["regressed"], bench["fixed_with_correction"]
@@ -230,9 +270,9 @@ try:
         "that's *why* accuracy barely moves. But the two sets of flips land on different "
         "classes: fixes concentrate on the minority classes, regressions land on classes that "
         "had correct predictions to spare — a redistribution that helps macro-F1 without "
-        f"changing raw accuracy. Only **{len(fixed_wc)}/{len(fixed)}** of the fixes came from an "
-        "actual correction (elongation/emoji/slang) — the rest were fixed by tokenizer spacing "
-        "alone, with no correction logged at all."
+        f"changing raw accuracy. Only :blue[**{len(fixed_wc)}/{len(fixed)}**] of the fixes came "
+        "from an actual correction (elongation/emoji/slang) — the rest were fixed by tokenizer "
+        "spacing alone, with no correction logged at all."
     )
 
     with st.expander(f"Example: a case normalization fixed"):
@@ -252,29 +292,45 @@ try:
 except FileNotFoundError:
     st.info("Benchmark results not found in this deployment.")
 
-st.header("5. Limitations")
+st.header("Limitations")
 st.markdown(
     """
-- **Dictionary coverage is incomplete** — only slang seen ≥3 times in MultiLexNorm++'s corpus is
+**Data and coverage**
+- Dictionary coverage is incomplete — only slang seen ≥3 times in MultiLexNorm++'s corpus is
   corrected, so gaps remain (e.g. `ชิมิ` isn't in it and still gets mis-tokenized)
-- **Some of the gain is a tokenizer-spacing artifact**, not a linguistic correction — see the
-  fix breakdown above
-- **Sarcasm and tone are out of scope** — `normalize_thai()` only fixes surface form, not meaning
-  that depends on context
-- **Emoji mapping is coarse** — all emoji collapse into 3 tags (positive/negative/neutral), not
+- Emoji mapping is coarse — all emoji collapse into 3 tags (positive/negative/neutral), not
   per-emotion granularity
-- **Metrics are from a single training run**, not averaged over multiple seeds
+
+**Method**
+- Sarcasm and tone are out of scope — `normalize_thai()` only fixes surface form, not meaning
+  that depends on context
+- Part of the measured gain is a tokenizer-spacing artifact rather than a linguistic correction —
+  see the fix breakdown above
+
+**Evaluation**
+- :red[Metrics are from a single training run], not averaged over multiple random seeds, so the
+  precise magnitude of the +1.2pp gain — though not its direction — should be treated as an
+  estimate rather than a guaranteed figure
 """
 )
 
-st.header("6. Conclusion")
+st.header("Conclusion")
 st.markdown(
     """
-Normalizing informal Thai text measurably improves **macro-F1** (+1.2pp) on Wisesight
-Sentiment — concentrated in the classes with the fewest training examples — while leaving raw
-accuracy roughly unchanged, since it fixes about as many predictions as it breaks. About a
-third of the fixes trace back to tokenizer spacing rather than the normalization logic itself,
-a distinction worth isolating in any follow-up work.
+Normalizing informal Thai text measurably improves :orange[**macro-F1 by +1.2pp**] on Wisesight
+Sentiment, concentrated in the classes with the fewest training examples, while leaving raw
+accuracy roughly unchanged — it fixes about as many predictions as it breaks, but the two sets
+of changes are not distributed evenly across classes. About a third of the fixes trace back to
+tokenizer spacing rather than the normalization logic itself, a distinction worth isolating in
+any follow-up work.
+"""
+)
+st.markdown(
+    """
+**Recommended next steps**
+1. Re-run the benchmark with multiple random seeds to report a confidence interval on the macro-F1 gain, addressing the single-run limitation above
+2. Separate the tokenizer-spacing effect from true corrections as its own ablation, to quantify normalize_thai()'s standalone contribution
+3. Extend dictionary coverage below the ≥3-occurrence threshold using a confidence-weighted rule instead of a hard cutoff
 """
 )
 
@@ -284,7 +340,7 @@ st.divider()
 # Live demo
 # ---------------------------------------------------------------------------
 
-st.header("7. Try it yourself")
+st.header("Live Demo")
 
 examples = [
     "อาหารช้ามากกกกก มั้ยอ่ะ เค้าไม่ชอบ 😭😭😭",
