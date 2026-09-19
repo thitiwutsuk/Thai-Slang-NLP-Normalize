@@ -135,6 +135,7 @@ classification accuracy.
 """
 )
 
+st.divider()
 st.header("Data Sources")
 st.markdown(
     """
@@ -152,6 +153,7 @@ posts rather than curated review text — the same register the normalization pi
 )
 st.caption("Because labels are imbalanced, **macro-F1** is tracked alongside accuracy throughout this report — accuracy alone would hide how the minority classes perform.")
 
+st.divider()
 st.header("Methodology")
 st.markdown(
     """
@@ -176,7 +178,7 @@ from a single training run.
 st.markdown("**`normalize_thai()` in action** — computed live, right now, by this app:")
 _example_result = normalize_thai("อาหารช้ามากกกกก มั้ยอ่ะ เค้าไม่ชอบ 😭😭😭")
 st.code(json.dumps(_example_result, ensure_ascii=False, indent=2), language="json")
-with st.expander("Design notes / known gaps"):
+with st.expander("Design notes / known gaps", icon="📝"):
     st.markdown(
         """
         - Elongation reduction skips digit runs (`555` = laughter, not a typo) and emoji runs — only collapses letters/punctuation
@@ -196,7 +198,7 @@ st.markdown(
     5. **Test once, at the end** — after all 3 epochs, run one final pass on the **test** split, which the model has never seen in steps 3 or 4. This is the only number reported as "the" result — it's what the metrics below come from.
     """
 )
-with st.expander("Full training details"):
+with st.expander("Full training details", icon="⚙️"):
     st.markdown(
         """
         - New 4-class classification head on top of `airesearch/wangchanberta-base-att-spm-uncased`, randomly initialized
@@ -207,6 +209,7 @@ with st.expander("Full training details"):
         """
     )
 
+st.divider()
 st.header("Results & Analysis")
 st.markdown(
     "All figures below come from a single held-out **test set** (2,671 examples) that neither "
@@ -238,7 +241,7 @@ try:
         f"**{norm_metrics['accuracy']:.1%} is roughly {(norm_metrics['accuracy'] - _majority_share) * 100:.0f} "
         "points above that naive baseline**], not a small gap from 100%."
     )
-    with st.expander("Why 74% and not higher?"):
+    with st.expander("Why 74% and not higher?", icon="💡"):
         st.markdown(
             f"""
             A handful of factors cap accuracy on this task well below 100%, independent of how
@@ -277,7 +280,7 @@ try:
         "Positive +3.2pp, Question +1.9pp."
     )
 
-    with st.expander("Confusion matrices (test set)"):
+    with st.expander("Confusion matrices (test set)", icon="📊"):
         c1, c2 = st.columns(2)
         c1.caption("Raw text")
         c1.dataframe(confusion_df(raw_metrics["confusion_matrix"]))
@@ -308,14 +311,14 @@ try:
         "spacing alone, with no correction logged at all."
     )
 
-    with st.expander(f"Example: a case normalization fixed"):
+    with st.expander("Example: a case normalization fixed", icon="✅"):
         if fixed_wc:
             c = fixed_wc[0]
             st.markdown(f"**Raw:** `{c['raw']}`")
             st.markdown(f"**Normalized:** `{c['normalized']}`")
             st.markdown(f"True label: `{c['true']}` — raw predicted `{c['raw_pred']}`, normalized predicted `{c['norm_pred']}` ✅")
 
-    with st.expander(f"Example: a case normalization broke"):
+    with st.expander("Example: a case normalization broke", icon="❌"):
         if regressed:
             c = regressed[0]
             st.markdown(f"**Raw:** `{c['raw']}`")
@@ -325,6 +328,7 @@ try:
 except FileNotFoundError:
     st.info("Benchmark results not found in this deployment.")
 
+st.divider()
 st.header("Limitations")
 st.markdown(
     """
@@ -347,6 +351,7 @@ st.markdown(
 """
 )
 
+st.divider()
 st.header("Conclusion")
 st.markdown(
     """
