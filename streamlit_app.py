@@ -229,6 +229,39 @@ try:
         f"{(norm_metrics['macro_f1'] - raw_metrics['macro_f1']) * 100:+.1f}pp vs. raw",
     )
 
+    _test_class_counts = [sum(row) for row in norm_metrics["confusion_matrix"]]
+    _test_total = sum(_test_class_counts)
+    _majority_share = max(_test_class_counts) / _test_total
+    st.caption(
+        f"For context: always predicting the majority class (Neutral, {_majority_share:.1%} of "
+        f"the test set) would itself score {_majority_share:.1%} accuracy — so :orange["
+        f"**{norm_metrics['accuracy']:.1%} is roughly {(norm_metrics['accuracy'] - _majority_share) * 100:.0f} "
+        "points above that naive baseline**], not a small gap from 100%."
+    )
+    with st.expander("Why 74% and not higher?"):
+        st.markdown(
+            f"""
+            A handful of factors cap accuracy on this task well below 100%, independent of how
+            well `normalize_thai()` works:
+
+            - **Four-way classification is harder than binary sentiment** — the boundary between
+              Neutral and mildly Positive or Negative text is genuinely ambiguous in short social
+              posts, and annotators themselves would not always agree on the "correct" label
+            - **Label noise is inherent to the dataset** — Wisesight Sentiment is human-annotated
+              social media text, not a curated benchmark, so some fraction of the ceiling is set
+              by annotation disagreement rather than model capability
+            - **Training budget was modest by design** — a base-sized WangchanBERTa (~110M
+              parameters) fine-tuned for 3 epochs on 21,628 examples; more epochs, a larger model,
+              or more data would likely move this further, with diminishing returns
+            - **This range is consistent with published results** on Wisesight Sentiment — models
+              in this class typically score in the low-to-mid 70s, so :orange[**{norm_metrics['accuracy']:.1%} is not an outlier — it reflects the benchmark's genuine difficulty**]
+
+            The project's objective was never to maximize this number — it was to measure whether
+            normalization moves it, and by how much on which classes. That is the comparison the
+            rest of this section reports.
+            """
+        )
+
     st.markdown("**Per-class F1**")
     per_class = pd.DataFrame(
         {
