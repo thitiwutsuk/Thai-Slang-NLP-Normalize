@@ -90,13 +90,14 @@ def confusion_df(cm: list[list[int]]) -> pd.DataFrame:
     return df
 
 
-st.set_page_config(page_title="Thai Text Normalization + Sentiment", page_icon="🇹🇭", layout="centered")
+st.set_page_config(page_title="Thai Text Normalization + Sentiment", page_icon="🇹🇭", layout="wide")
 
 # ---------------------------------------------------------------------------
 # Report
 # ---------------------------------------------------------------------------
 
 st.title("Thai Text Normalization + Sentiment")
+st.markdown("Report by [**thitiwutsuk**](https://github.com/thitiwutsuk/Thai-Slang-NLP-Normalize)")
 st.caption(
     "A full project report — problem, method, results, and what was learned — "
     "followed by a live demo you can try yourself at the bottom."
