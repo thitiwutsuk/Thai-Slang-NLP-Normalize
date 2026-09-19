@@ -92,6 +92,24 @@ def confusion_df(cm: list[list[int]]) -> pd.DataFrame:
 
 st.set_page_config(page_title="Thai Text Normalization + Sentiment", page_icon="🇹🇭", layout="wide")
 
+# Light-gray expander background (matches secondaryBackgroundColor in .streamlit/config.toml),
+# so the "click to expand" boxes stand out from the white page background.
+st.markdown(
+    """
+    <style>
+    [data-testid="stExpander"] {
+        background-color: #F5F5F5;
+        border-radius: 8px;
+    }
+    [data-testid="stExpander"] summary {
+        background-color: #F5F5F5;
+        border-radius: 8px;
+    }
+    </style>
+    """,
+    unsafe_allow_html=True,
+)
+
 # ---------------------------------------------------------------------------
 # Report
 # ---------------------------------------------------------------------------
