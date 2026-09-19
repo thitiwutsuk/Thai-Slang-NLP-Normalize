@@ -40,24 +40,6 @@ Normalizes informal Thai social text (elongation, slang, emoji) into a standard 
 
 ## Pipeline
 
-```mermaid
-flowchart LR
-    A["Wisesight Sentiment<br/>raw text"] --> B1["Clean"]
-    B1 --> B2["Reduce elongation"]
-    B2 --> B3["Map emoji to tags"]
-    B3 --> B4["Tokenize"]
-    B4 --> B5["Slang dictionary lookup"]
-
-    A -- "raw text" --> T1["Fine-tune WangchanBERTa"]
-    B5 -- "normalized text" --> T2["Fine-tune WangchanBERTa"]
-
-    T1 --> E["Evaluate on held-out test set"]
-    T2 --> E
-    E --> R["Compare accuracy and macro-F1"]
-    R --> D1["Streamlit demo"]
-    R --> D2["Model on Hugging Face Hub"]
-```
-
 - **Clean** ([src/cleaning.py](src/cleaning.py)) — strip URLs, mentions, hashtag symbols, extra whitespace
 - **Reduce elongation** ([src/elongation.py](src/elongation.py)) — collapse repeated characters, character-level, before tokenizing
 - **Map emoji/emoticons** ([src/emoji_map.py](src/emoji_map.py)) — emoji/text-emoticons → sentiment tokens
