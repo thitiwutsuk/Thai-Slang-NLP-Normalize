@@ -196,7 +196,7 @@ from a single training run.
 st.markdown("**`normalize_thai()` in action** — computed live, right now, by this app:")
 _example_result = normalize_thai("อาหารช้ามากกกกก มั้ยอ่ะ เค้าไม่ชอบ 😭😭😭")
 st.code(json.dumps(_example_result, ensure_ascii=False, indent=2), language="json")
-with st.expander("Design notes / known gaps", icon="📝"):
+with st.expander("Design notes / known gaps", icon="📝", expanded=True):
     st.markdown(
         """
         - Elongation reduction skips digit runs (`555` = laughter, not a typo) and emoji runs — only collapses letters/punctuation
@@ -216,7 +216,7 @@ st.markdown(
     5. **Test once, at the end** — after all 3 epochs, run one final pass on the **test** split, which the model has never seen in steps 3 or 4. This is the only number reported as "the" result — it's what the metrics below come from.
     """
 )
-with st.expander("Full training details", icon="⚙️"):
+with st.expander("Full training details", icon="⚙️", expanded=True):
     st.markdown(
         """
         - New 4-class classification head on top of `airesearch/wangchanberta-base-att-spm-uncased`, randomly initialized
@@ -259,7 +259,7 @@ try:
         f"**{norm_metrics['accuracy']:.1%} is roughly {(norm_metrics['accuracy'] - _majority_share) * 100:.0f} "
         "points above that naive baseline**], not a small gap from 100%."
     )
-    with st.expander("Why 74% and not higher?", icon="💡"):
+    with st.expander("Why 74% and not higher?", icon="💡", expanded=True):
         st.markdown(
             f"""
             A handful of factors cap accuracy on this task well below 100%, independent of how
@@ -298,7 +298,7 @@ try:
         "Positive +3.2pp, Question +1.9pp."
     )
 
-    with st.expander("Confusion matrices (test set)", icon="📊"):
+    with st.expander("Confusion matrices (test set)", icon="📊", expanded=True):
         c1, c2 = st.columns(2)
         c1.caption("Raw text")
         c1.dataframe(confusion_df(raw_metrics["confusion_matrix"]))
@@ -329,14 +329,14 @@ try:
         "spacing alone, with no correction logged at all."
     )
 
-    with st.expander("Example: a case normalization fixed", icon="✅"):
+    with st.expander("Example: a case normalization fixed", icon="✅", expanded=True):
         if fixed_wc:
             c = fixed_wc[0]
             st.markdown(f"**Raw:** `{c['raw']}`")
             st.markdown(f"**Normalized:** `{c['normalized']}`")
             st.markdown(f"True label: `{c['true']}` — raw predicted `{c['raw_pred']}`, normalized predicted `{c['norm_pred']}` ✅")
 
-    with st.expander("Example: a case normalization broke", icon="❌"):
+    with st.expander("Example: a case normalization broke", icon="❌", expanded=True):
         if regressed:
             c = regressed[0]
             st.markdown(f"**Raw:** `{c['raw']}`")
